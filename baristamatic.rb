@@ -54,11 +54,18 @@ class Baristamatic
     end
   end
 
-  def order(number)
+  def order(response)
     @menu.each_with_index do |(drink, ingredients), index|
-        if index+1 == number.to_i
-          puts "Dispensing: #{drink}"
-          update_inv(ingredients)
+        if index+1 == response.to_i
+          if in_stock?(ingredients)
+            puts "Dispensing: #{drink}"
+            update_inv(ingredients)
+            break
+          else
+            puts "Out of stock: #{drink}"  
+          end
+        else
+          puts "Invalid Selection: #{response}"
         end
     end
   end
@@ -68,17 +75,17 @@ class Baristamatic
   end
   
   def in_stock?(ingredients)
-    stock = true
     ingredients.each do |ingredient| 
-      if (@inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]) <= 0
-        stock == false
+      if @inventory["#{ingredient[0]}"][:inventory] <= ingredient[1]
+        return false
+      else 
+        return true
       end
-      return stock
     end
   end
 
   def update_inv(ingredients)
-    ingredients.each do |ingredient| 
+    ingredients.map do |ingredient|
       @inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]
     end
   end
@@ -86,8 +93,6 @@ class Baristamatic
   def restock
     puts 'Restocking inventory...'
     @inventory.values.map {|item, details| item[:inventory] = 10}
-    display_inv
-    display_menu
   end
 
   def run
