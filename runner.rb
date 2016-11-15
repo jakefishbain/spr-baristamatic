@@ -4,4 +4,4 @@ bb = Baristamatic.new
 
 # p bb.inventory
 # p bb.inventory['Coffee']['inventory']
-p bb.menu
+p bb.menu['Coffee']

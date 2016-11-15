@@ -42,6 +42,6 @@ class Baristamatic
     }
   end
 
-  update inventory
-  list menu
+  # update inventory
+  # list menu
 end
