@@ -54,13 +54,11 @@ class Baristamatic
     end
   end
 
-  def order(item)
+  def order(number)
     @menu.each_with_index do |(drink, ingredients), index|
-        update_inv(ingredients)
-        if index+1 == item.to_i
+        if index+1 == number.to_i
           puts "Dispensing: #{drink}"
-          self.display_inv
-          self.display_menu
+          update_inv(ingredients)
         end
     end
   end
@@ -70,8 +68,12 @@ class Baristamatic
   end
   
   def in_stock?(ingredients)
+    stock = true
     ingredients.each do |ingredient| 
-      return true if (@inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]) > 0
+      if (@inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]) <= 0
+        stock == false
+      end
+      return stock
     end
   end
 
@@ -84,14 +86,22 @@ class Baristamatic
   def restock
     puts 'Restocking inventory...'
     @inventory.values.map {|item, details| item[:inventory] = 10}
-    self.display_inv
-    self.display_menu
+    display_inv
+    display_menu
   end
 
-  def run(response)
-    self.display_inv
-    self.display_menu
-    self.order(response)
+  def run
+    response = ''
+    until response == 'q' || response == 'Q'
+      if response == 'r' || response == 'R'
+        restock
+      elsif (1..6).include?(response.to_i)
+        order(response)
+      end
+    display_inv
+    display_menu
+    response = gets.chomp
+    end
   end
 
 end

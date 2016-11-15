@@ -1,12 +1,8 @@
 require_relative 'baristamatic'
 
 bari = Baristamatic.new
+bari.run
 
-response = ''
-until response == 'q' || response == 'Q'
-  bari.run(response)
-  response = gets.chomp
-end
 
 
 # p bari.inventory['Coffee'][:inventory]
