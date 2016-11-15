@@ -44,7 +44,7 @@ class Baristamatic
 
   def display_inv 
     puts "Inventory:"
-    @inventory.map {|item, details| puts "#{item},#{details[:inventory]}"} 
+    @inventory.each {|item, details| puts "#{item},#{details[:inventory]}"} 
   end
 
   def display_menu
@@ -52,6 +52,11 @@ class Baristamatic
     @menu.each_with_index do |(drink, ingredients), index|
         puts "#{index+1},#{drink},$#{price(ingredients)},#{in_stock?(ingredients)}"
     end
+  end
+
+  def restock
+    puts 'Restocking inventory...'
+    @inventory.values.each {|item, details| item[:inventory] = 10}
   end
 
   def order(response)
@@ -69,13 +74,15 @@ class Baristamatic
     end
   end
 
+  private
+
   def price(ingredients)
-    ingredients.map {|ingredient| @inventory["#{ingredient[0]}"][:price]*ingredient[1]}.reduce(:+).round(2)
+    ingredients.map {|ingredient| @inventory[ingredient[0].to_s][:price]*ingredient[1]}.reduce(:+).round(2)
   end
   
   def in_stock?(ingredients)
     ingredients.each do |ingredient| 
-      if @inventory["#{ingredient[0]}"][:inventory] <= ingredient[1]
+      if @inventory[ingredient[0].to_s][:inventory] <= ingredient[1]
         return false
       else 
         return true
@@ -84,44 +91,9 @@ class Baristamatic
   end
 
   def update_inv(ingredients)
-    ingredients.map do |ingredient|
-      @inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]
-    end
-  end
-
-  def restock
-    puts 'Restocking inventory...'
-    @inventory.values.map {|item, details| item[:inventory] = 10}
-  end
-
-  def run
-    response = ''
-    until response == 'q' || response == 'Q'
-      if response == 'r' || response == 'R'
-        restock
-      elsif (1..6).include?(response.to_i)
-        order(response)
-      elsif response != ''
-        puts "Invalid Selection: #{response}"
-        break
-      end
-    display_inv
-    display_menu
-    response = gets.chomp
+    ingredients.each do |ingredient|
+      @inventory[ingredient[0].to_s][:inventory] -= ingredient[1]
     end
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

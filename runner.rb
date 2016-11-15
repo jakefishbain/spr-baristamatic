@@ -1,13 +1,19 @@
 require_relative 'baristamatic'
 
 bari = Baristamatic.new
-bari.run
+# bari.run
 
-
-
-# p bari.inventory['Coffee'][:inventory]
-# bari.inventory['Coffee'][:inventory] = bari.inventory['Coffee'][:inventory] -3
-# p bari.inventory['Coffee'][:inventory]
-# bari.restock
-# p bari.inventory['Coffee'][:inventory]
+response = ''
+    until response == 'q' || response == 'Q'
+      if response == 'r' || response == 'R'
+        bari.restock
+      elsif (1..6).include?(response.to_i)
+        bari.order(response)
+      elsif response != ''
+        puts "Invalid Selection: #{response}"
+      end
+    bari.display_inv
+    bari.display_menu
+    response = gets.chomp
+    end
 
