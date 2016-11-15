@@ -42,6 +42,17 @@ class Baristamatic
     }
   end
 
-  # update inventory
-  # list menu
+  def display_inv
+    puts 'Inventory:'
+    @inventory.each {|item| puts "#{item[0]},#{item[1]['inventory']}"} 
+    puts "\n"
+  end
+
+  def restock
+    @inventory.values.map do |item| 
+      item['inventory'] = 10
+    end
+  end
+
+  # display menu
 end

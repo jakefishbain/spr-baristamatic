@@ -1,7 +1,10 @@
 require_relative 'baristamatic'
 
-bb = Baristamatic.new
+bari = Baristamatic.new
 
-# p bb.inventory
-# p bb.inventory['Coffee']['inventory']
-p bb.menu['Coffee']
+bari.display_inv
+p bari.inventory['Coffee']['inventory'] 
+bari.inventory['Coffee']['inventory'] = 8
+p bari.inventory['Coffee']['inventory'] 
+bari.restock
+p bari.inventory['Coffee']['inventory'] 
