@@ -43,7 +43,7 @@ class Baristamatic
   end
 
   def display_inv 
-    puts "\nInventory:"
+    puts "Inventory:"
     @inventory.map {|item, details| puts "#{item},#{details[:inventory]}"} 
   end
 
@@ -54,11 +54,14 @@ class Baristamatic
     end
   end
 
-  def order
-    order = gets.chomp.to_i
+  def order(item)
     @menu.each_with_index do |(drink, ingredients), index|
         update_inv(ingredients)
-        puts "Dispensing: #{drink}" if index+1 == order
+        if index+1 == item.to_i
+          puts "Dispensing: #{drink}"
+          self.display_inv
+          self.display_menu
+        end
     end
   end
 
@@ -83,6 +86,12 @@ class Baristamatic
     @inventory.values.map {|item, details| item[:inventory] = 10}
     self.display_inv
     self.display_menu
+  end
+
+  def run(response)
+    self.display_inv
+    self.display_menu
+    self.order(response)
   end
 
 end

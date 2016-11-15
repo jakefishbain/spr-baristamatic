@@ -3,10 +3,9 @@ require_relative 'baristamatic'
 bari = Baristamatic.new
 
 response = ''
-unless response == 'q' || response == 'Q'
-  bari.display_inv
-  bari.display_menu
-  bari.order
+until response == 'q' || response == 'Q'
+  bari.run(response)
+  response = gets.chomp
 end
 
 
