@@ -25,47 +25,51 @@ class Baristamatic
     @menu = {
                   'Coffee' =>          {'Coffee': 3,
                                         'Sugar': 1,
-                                        'Cream': 1,
-                                        'In Stock': true},
+                                        'Cream': 1},
                   'Decaf Coffee' =>    {'Decaf Coffee': 3,
                                         'Sugar': 1,
-                                        'Cream': 1,
-                                        'In Stock': true},
+                                        'Cream': 1},
                   'Caffe Latte' =>     {'Espresso': 2,
-                                        'Steamed Milk': 1,
-                                        'In Stock': true},
-                  'Caffe Americano' => {'Espresso': 3,
-                                        'In Stock': true},
+                                        'Steamed Milk': 1},
+                  'Caffe Americano' => {'Espresso': 3},
                   'Caffe Mocha' =>     {'Espresso': 1,
                                         'Cocoa': 1,
                                         'Steamed Milk': 1,
-                                        'Whipped Cream': 1,
-                                        'In Stock': true},
+                                        'Whipped Cream': 1},
                   'Cappuccino' =>      {'Espresso': 2,
                                         'Steamed Milk': 1,
-                                        'Foamed Milk': 1,
-                                        'In Stock': true}
+                                        'Foamed Milk': 1,}
     }
   end
 
   def display_inv 
     puts "\nInventory:"
-    @inventory.each {|item, details| puts "#{item},#{details[:inventory]}"} 
+    @inventory.map {|item, details| puts "#{item},#{details[:inventory]}"} 
   end
 
   def display_menu
     puts "Menu:"
     @menu.each_with_index do |(drink, ingredients), index|
-      if in_stock?(drink)
-        puts drink
-      end
+      # if in_stock?(drink)
+        puts "#{index+1},#{drink},$#{price(ingredients)}"
+      # end
     end
   end
 
   def in_stock?(drink)
     #check inventory to determine if in stock
   end
+
+  def price(ingredients)
+    ingredients.map {|ingredient| @inventory["#{ingredient[0]}"][:price]*ingredient[1]}.reduce(:+).round(2)
+  end
   
+  def update_inv(ingredients)
+    ingredients.each do |ingredient| 
+      @inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]
+    end
+  end
+
   def restock
     puts 'Restocking inventory...'
     @inventory.values.map {|item, details| item[:inventory] = 10}
@@ -73,7 +77,6 @@ class Baristamatic
     self.display_menu
   end
 
-  # display menu
 end
 
 
