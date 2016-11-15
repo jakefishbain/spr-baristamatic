@@ -50,20 +50,28 @@ class Baristamatic
   def display_menu
     puts "Menu:"
     @menu.each_with_index do |(drink, ingredients), index|
-      # if in_stock?(drink)
-        puts "#{index+1},#{drink},$#{price(ingredients)}"
-      # end
+        puts "#{index+1},#{drink},$#{price(ingredients)},#{in_stock?(ingredients)}"
     end
   end
 
-  def in_stock?(drink)
-    #check inventory to determine if in stock
+  def order
+    order = gets.chomp.to_i
+    @menu.each_with_index do |(drink, ingredients), index|
+        update_inv(ingredients)
+        puts "Dispensing: #{drink}" if index+1 == order
+    end
   end
 
   def price(ingredients)
     ingredients.map {|ingredient| @inventory["#{ingredient[0]}"][:price]*ingredient[1]}.reduce(:+).round(2)
   end
   
+  def in_stock?(ingredients)
+    ingredients.each do |ingredient| 
+      return true if (@inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]) > 0
+    end
+  end
+
   def update_inv(ingredients)
     ingredients.each do |ingredient| 
       @inventory["#{ingredient[0]}"][:inventory] -= ingredient[1]
