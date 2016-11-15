@@ -62,10 +62,9 @@ class Baristamatic
             update_inv(ingredients)
             break
           else
-            puts "Out of stock: #{drink}"  
+            puts "Out of stock: #{drink}"
+            break  
           end
-        else
-          puts "Invalid Selection: #{response}"
         end
     end
   end
@@ -102,6 +101,9 @@ class Baristamatic
         restock
       elsif (1..6).include?(response.to_i)
         order(response)
+      elsif response != ''
+        puts "Invalid Selection: #{response}"
+        break
       end
     display_inv
     display_menu
