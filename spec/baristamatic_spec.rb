@@ -18,4 +18,16 @@ describe Baristamatic do
     expect(bari.menu.count).to eq 6
   end
 
+  it 'has the correct ingredients for a drink' do
+    coffee = bari.menu.first
+    expect(coffee[1][:Coffee]).to eq 3
+    expect(coffee[1][:Sugar]).to eq 1
+    expect(coffee[1][:Cream]).to eq 1
+  end
+
+  it 'can display its inventory' do
+    expect(bari.display_inv).to eq bari.inventory
+  end
+
+
 end
