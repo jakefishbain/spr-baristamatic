@@ -2,6 +2,7 @@ require_relative '../baristamatic'
 
 describe Baristamatic do 
   let(:bari) { Baristamatic.new }
+  let(:coffee) {bari.menu['Coffee']}
 
   it 'has an inventory' do
     expect(bari.inventory.count).to eq 9
@@ -19,7 +20,6 @@ describe Baristamatic do
   end
 
   it 'has the correct ingredients for a drink' do
-    coffee = bari.menu['Coffee']
     expect(coffee[:Coffee]).to eq 3
     expect(coffee[:Sugar]).to eq 1
     expect(coffee[:Cream]).to eq 1
@@ -45,11 +45,15 @@ describe Baristamatic do
   end
 
   it 'can determine a price' do
-    coffee = bari.menu['Coffee']
     expect(bari.price(coffee)).to eq 2.75
   end
 
   it 'can determine if a drink is in stock' do
+    expect(bari.in_stock?(coffee)).to eq true
+  end
 
+  it 'can determine if a drink is NOT in stock' do
+    3.times { bari.order(1) }
+    expect(bari.in_stock?(coffee)).to eq false
   end
 end
