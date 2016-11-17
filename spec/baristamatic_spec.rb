@@ -19,10 +19,10 @@ describe Baristamatic do
   end
 
   it 'has the correct ingredients for a drink' do
-    coffee = bari.menu.first
-    expect(coffee[1][:Coffee]).to eq 3
-    expect(coffee[1][:Sugar]).to eq 1
-    expect(coffee[1][:Cream]).to eq 1
+    coffee = bari.menu['Coffee']
+    expect(coffee[:Coffee]).to eq 3
+    expect(coffee[:Sugar]).to eq 1
+    expect(coffee[:Cream]).to eq 1
   end
 
   it 'can display its inventory' do
@@ -39,4 +39,17 @@ describe Baristamatic do
     expect(bari.inventory['Coffee'][:inventory]).to eq 10
   end
 
+  it 'can order a drink' do
+    bari.order(1)
+    expect(bari.inventory['Coffee'][:inventory]).to eq 7
+  end
+
+  it 'can determine a price' do
+    coffee = bari.menu['Coffee']
+    expect(bari.price(coffee)).to eq 2.75
+  end
+
+  it 'can determine if a drink is in stock' do
+
+  end
 end
