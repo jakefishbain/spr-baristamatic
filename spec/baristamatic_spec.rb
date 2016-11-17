@@ -56,4 +56,11 @@ describe Baristamatic do
     3.times { bari.order(1) }
     expect(bari.in_stock?(coffee)).to eq false
   end
+
+  it 'can update its inventory when a drink is ordered' do 
+    bari.order(1) #coffee
+    expect(bari.inventory['Coffee'][:inventory]).to eq 7
+    expect(bari.inventory['Sugar'][:inventory]).to eq 9
+    expect(bari.inventory['Cream'][:inventory]).to eq 9
+  end
 end
