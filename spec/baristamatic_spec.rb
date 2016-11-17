@@ -29,5 +29,8 @@ describe Baristamatic do
     expect(bari.display_inv).to eq bari.inventory
   end
 
+  it 'can display its menu' do
+    expect(bari.display_menu).to eq bari.menu
+  end
 
 end
