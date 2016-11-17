@@ -33,4 +33,10 @@ describe Baristamatic do
     expect(bari.display_menu).to eq bari.menu
   end
 
+  it 'can restock its inventory' do
+    bari.inventory['Coffee'][:inventory] = 8
+    bari.restock
+    expect(bari.inventory['Coffee'][:inventory]).to eq 10
+  end
+
 end
