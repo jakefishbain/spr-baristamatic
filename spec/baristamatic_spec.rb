@@ -14,4 +14,8 @@ describe Baristamatic do
     end
   end
 
+  it 'has a menu' do
+    expect(bari.menu.count).to eq 6
+  end
+
 end
