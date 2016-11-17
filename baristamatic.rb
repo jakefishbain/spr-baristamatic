@@ -74,7 +74,7 @@ class Baristamatic
     end
   end
 
-  private
+  # private COMMENTED OUT FOR TESTING PURPOSES 
 
   def price(ingredients)
     ingredients.map {|ingredient| @inventory[ingredient[0].to_s][:price]*ingredient[1]}.reduce(:+).round(2)
